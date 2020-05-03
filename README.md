@@ -12,7 +12,7 @@ If you have decided to use this NodeJS module to create your website, you should
 
 Let&#39;s create a folder, we&#39;ll call it `node-website-sws`
 
-![alttext](https://imgur.com/3cutHLi, "create project folder")
+![createfolder](https://i.imgur.com/3cutHLi.png)
 
 Open a terminal and move in this folder, or open a terminal in this folder if you can.
 
@@ -22,7 +22,7 @@ Next, let&#39;s initialize a node project. You have two very similar options:
 
 `npm init –y` The same command, except it will fill out all the questions for you automatically.
 
-![alttext](https://imgur.com/ugn3J7w, "create project folder")
+![npminit](https://i.imgur.com/ugn3J7w.png)
 
 Now, let&#39;s add the module to the project:
 
@@ -38,7 +38,7 @@ Whether you already have made a website or not, this is where it goes, HTML, CSS
 
 Let&#39;s create a folder that we&#39;ll call public
 
-![alttext](https://imgur.com/HhB2RTu, "create project folder")
+![alttext](https://i.imgur.com/HhB2RTu.png)
 
 
 If you&#39;ve already made a website, put it in this folder. Otherwise, you can create one here. There is a rules that you need to apply: you have to put everything that is not an HTML page (so pictures, videos, CSS script, client-side JS, etc…) in a folder called resources, although you should always do this, even if you&#39;re not using this module.
@@ -51,11 +51,11 @@ If you have already made a website, depending on how you made it, you will proba
 
 As said previously, all resources should be in a folder called resources. Therefore, to actually use them, you have to add the resources folder in the source, like so:
 
-
-
-    <img src="resources/img/logo.png">
-    <link rel="stylesheet" href="resources/css/styles.css">
-    <script src="resources/js/script.js"></script>
+```html
+<img src="resources/img/logo.png">
+<link rel="stylesheet" href="resources/css/styles.css">
+<script src="resources/js/script.js"></script>
+```
 
 ### HTML Pages href
 
@@ -63,17 +63,15 @@ The filter will actually take care of which HTML page to show the user depending
 
 Instead of having this:
 
-
-
-    <a href="pages/page1.html">Link to another page</a>
-
+```html
+<a href="pages/page1.html">Link to another page</a>
+```
 And have this URL: [http://yourwebsite.com/pages/page1.html](http://yourwebsite.com/pages/page1.html)
 
 You could have this:
-
-
-
-    <a href="page1">Link to another page</a>
+```html
+<a href="page1">Link to another page</a>
+```
 
 And have this URL: [http://yourwebsite.com/page1](http://yourwebsite.com/page1)
 
@@ -85,22 +83,21 @@ Like said before, the filter will take care of checking which HTML pages the use
 
 Let&#39;s create a file and call it `sws-filter.json`
 
-
-
-    {
+```json
+{
     "/":"/pages/index.html",
     "/about":"/pages/about.html"
-    }
+}
+```
 
 Now, you can have:
+```html
+<a href="about">About us!</a>
+```
 
+And when the user will click on the link, it will send them here: [http://yourwebsite.com/about](http://yourwebsite.com/about)
 
-
-    <a href="about">About us!</a>
-
-And when the user will click on the link, it will send him here: [http://yourwebsite.com/about](http://yourwebsite.com/about)
-
-And show him the about page, which is `/public/pages/about.html`
+And show them the about page, which is `/public/pages/about.html`
 
 ## Node server
 
@@ -109,26 +106,24 @@ Alright, now that everything is setup, time to make the server.
 Create a Javascript file in the root folder (not the public folder!), let&#39;s call it index.js
 
 First off, let&#39;s call the module:
-
-
-
-    const simple-web-server = require('simple-web-server');
+```js
+const simplewebserver = require('simple-web-server');
+```
 
 We can now use the module. We need to set some values before starting the web server.
 
-
-
-    //this tells the module where the filter is in the project
-    simple-web-server.filterPath = "./sws-filter.json"
-    //this tells the module where the public folder is in the project
-    simple-web-server.publicPath = "./public"
+```js
+//this tells the module where the filter is in the project
+simplewebserver.filterPath = "./sws-filter.json"
+//this tells the module where the public folder is in the project
+simplewebserver.publicPath = "./public"
+```
     
 
 And finally, we can start the server!
-
-
-
-    simple-web-server.startServer();
+```js
+simplewebserver.startServer();
+```
 
 That&#39;s it!
 
