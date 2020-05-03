@@ -1,5 +1,5 @@
 {
-  "name": "simple-web-server",
+  "name": "simple-node-web-server",
   "version": "1.0.0",
   "description": "A super easy to use web server for static websites!",
   "main": "simple-web-server.js",
@@ -8,6 +8,6 @@
   },
   "keywords": [],
   "author": "Guilhem De Marco",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {}
 }
