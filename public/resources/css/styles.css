@@ -1,0 +1,12 @@
+body{
+  font-family: Arial;
+}
+img{
+  height: 100px;
+}
+#logos{
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  transition-duration: 0.5s;
+}

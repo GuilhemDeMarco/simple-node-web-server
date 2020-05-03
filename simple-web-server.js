@@ -111,7 +111,7 @@ module.exports = {
               else {
                 res.statusCode = 200;
                 res.write(data);
-                console.log(swsLogPrefix(), "Favicon succesfully sent! \n");
+                console.log(swsLogPrefix(), "Resource succesfully sent! \n");
                 return res.end();
               }
             });

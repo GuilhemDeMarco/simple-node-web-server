@@ -3,9 +3,33 @@
   <head>
     <meta charset="utf-8">
     <title>Welcome to Simple Web Server!</title>
+    <link rel="stylesheet" href="resources/css/styles.css">
+    <script src="resources/js/script.js" defer></script>
   </head>
   <body>
     <h1>Welcome to Simple Web Server!</h1>
-    <img src="resources/logo.png" alt="">
+    <img src="resources/img/logosws.png">
+    <hr>
+
+    <h2>Let's get started!</h2>
+    <p>If you see this page, you probably forgot to add a few lines. <br>
+    That's ok! This page is here to help you.</p> <br>
+
+    <h3>Have you set the filter's path?</h3>
+    <textarea name="name" rows="1" cols="60">
+      simplewebserver.filterPath = "./sws-filter.json"
+    </textarea>
+    <p>If you see this page, it's because the module is still using its default path.</p>
+    <strong>Don't forget!</strong><br><br>
+    <textarea name="name" rows="1" cols="50">
+      simplewebserver.publicPath = "./public"
+    </textarea>
+    <p>If you don't set the public folder's path, it will also use its default path.</p>
+<div id="logos">
+    <a href="nekk.blueflower.fr"><img src="resources/img/logonekk.png"></a>
+    <a href="blueflower.fr"><img src="resources/img/logoblueflower.png"></a>
+</div>
+
+
   </body>
 </html>
