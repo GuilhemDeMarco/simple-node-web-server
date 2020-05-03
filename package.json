@@ -2,12 +2,12 @@
   "name": "simple-web-server",
   "version": "1.0.0",
   "description": "A super easy to use web server for static websites!",
-  "main": "simple-web-server",
+  "main": "simple-web-server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Guilhem De Marco",
   "license": "ISC",
   "dependencies": {}
 }
