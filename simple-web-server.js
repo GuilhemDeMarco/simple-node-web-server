@@ -7,35 +7,37 @@ var filter = {}
 module.exports = {
   hostname : "127.0.0.1",
   port : 3000,
-  filterPath:"./sws-filter.json",
 
-  startServer: function (filterPath = this.filterPath, hostname = this.hostname, port = this.port) {
-    console.log("Server has started");
+  filterPath:"./sws-filter.json",
+  publicPath:"./public",
+
+  startServer: function (filterPath = this.filterPath, publicPath = this.publicPath, hostname = this.hostname, port = this.port) {
+    console.log(swsLogPrefix(), "Server has started");
     getFilter(filterPath)
     http.createServer(async function (req, res){
       var u = url.parse(req.url, true)
       var q = url.parse(req.url, true).query;
       var request = u.pathname
-      console.log("Receieved request!");
-      console.log(request);
-      console.log("");
+      console.log(swsLogPrefix(), "Receieved request!");
+      console.log(swsLogPrefix(), request);
+      console.log(swsLogPrefix(), "");
 
       let requestArray = request.split("/")
-      
+
       getFilter(filterPath)
 
 
       if(filter[request]){
-        console.log("Request is in filter, sending page to user...");
-        console.log('./public' + filter[request]);
+        console.log(swsLogPrefix(), "Request is in filter, sending page to user...");
+        console.log(swsLogPrefix(), publicPath + filter[request]);
         try{
-          fs.readFile('./public' + filter[request], function(err, data) {
+          fs.readFile(publicPath + filter[request], function(err, data) {
             if (err) {
-              console.error("\x1b[31m","There was an error when sending the page!");
-              console.error("\x1b[0m",err);
-              console.error("\x1b[31m","Please check the following filter :");
-              console.error("\x1b[31m",request + ":" + filter[request]);
-              console.log("Sending an error to the user...","\x1b[0m")
+              console.error(swsLogPrefix(), "\x1b[31m","There was an error when sending the page!");
+              console.error(swsLogPrefix(), "\x1b[0m",err);
+              console.error(swsLogPrefix(), "\x1b[31m","Please check the following filter :");
+              console.error(swsLogPrefix(), "\x1b[31m",request + ":" + filter[request]);
+              console.log(swsLogPrefix(), "Sending an error to the user...","\x1b[0m")
               res.statusCode = 404;
               res.write("404")
               res.end()
@@ -43,39 +45,94 @@ module.exports = {
             else {
               res.writeHead(200, {'Content-Type': 'text/html'});
               res.write(data);
+              console.log(swsLogPrefix(), "Page succesfully sent! \n");
               return res.end();
-              console.log("Page succesfully sent! \n");
             }
           });
 
         }
         catch(err){
-            console.error("There was an error when sending the page!");
-            console.error(err);
-            console.error("Please check the following filter :");
-            console.error(request + ":" + filter[request]);
-            console.log("Sending an error to the user...")
-            res.statusCode = 404;
-            res.write("404")
-            res.end()
+          console.error(swsLogPrefix(), "\x1b[41m","Catched an error!","\x1b[0m");
+          console.error(swsLogPrefix(), err);
+          console.log(swsLogPrefix(), "\n");
+          res.statusCode = 404;
+          res.write("404")
+          res.end()
         }
       }
 
       //resource filter
       else if (requestArray[1]=="resources" || request == "/favicon.ico") {
-        console.log("Request is a resource request, checking in resource folder...");
+        console.log(swsLogPrefix(), "Request is a resource request, checking in resource folder...");
+        console.log(swsLogPrefix(), publicPath + request);
         if (request == "/favicon.ico") {
-            console.log("Requested favicon, sending to user...");
+          try{
+            fs.readFile(publicPath + request, function(err, data) {
+              if (err) {
+                console.error(swsLogPrefix(), "\x1b[31m","There was an error when sending the favicon!");
+                console.error(swsLogPrefix(), "\x1b[0m",err);
+                console.error(swsLogPrefix(), "\x1b[31m","Have you added favicon.ico to the public folder?");
+                console.error(swsLogPrefix(), "\x1b[31m","Remember, favicon.ico must be in the root of /public");
+                console.log(swsLogPrefix(), "Sending 404.","\x1b[0m")
+                console.log(swsLogPrefix(), "");
+                res.statusCode = 404;
+                return res.end()
+              }
+              else {
+                res.statusCode = 200;
+                res.write(data);
+                console.log(swsLogPrefix(), "Favicon succesfully sent! \n");
+                return res.end();
+              }
+            });
+          }
+          catch(err){
+              console.error(swsLogPrefix(), "\x1b[41m","Catched an error!","\x1b[0m");
+              console.error(swsLogPrefix(), err);
+              console.log(swsLogPrefix(), "\n");
+              res.statusCode = 404;
+              res.write("404")
+              res.end()
+          }
         }
-        //send resource
+        else{
+          try{
+            fs.readFile(publicPath + request, function(err, data) {
+              if (err) {
+                console.error(swsLogPrefix(), "\x1b[31m","There was an error when sending the resource!");
+                console.error(swsLogPrefix(), "\x1b[0m",err);
+                console.error(swsLogPrefix(), "\x1b[31m","Please check the following request :");
+                console.error(swsLogPrefix(), "\x1b[31m",request);
+                console.log(swsLogPrefix(), "Sending 404.","\x1b[0m")
+                console.log(swsLogPrefix(), "");
+                res.statusCode = 404;
+                return res.end()
+              }
+              else {
+                res.statusCode = 200;
+                res.write(data);
+                console.log(swsLogPrefix(), "Favicon succesfully sent! \n");
+                return res.end();
+              }
+            });
+          }
+          catch(err){
+              console.error(swsLogPrefix(), "\x1b[41m","Catched an error!","\x1b[0m");
+              console.error(swsLogPrefix(), err);
+              console.log(swsLogPrefix(), "\n");
+              res.statusCode = 404;
+              res.write("404")
+              res.end()
+          }
+        }
       }
       else{
-        console.log("Request is neither a page or a resource, sending 404 error to user...");
-        console.log("404 : " + request);
+        console.log(swsLogPrefix(),"Request is neither a page or a resource, sending 404 error to user...");
+        console.log(swsLogPrefix(), "404 : " + request);
         res.statusCode = 404;
         res.write("404")
         res.end()
-        console.log("");
+        console.log(swsLogPrefix(), "");
       }
 
     }).listen(port)
@@ -84,20 +141,25 @@ module.exports = {
 
 /*async function getFilterAsync(path){
   await fs.readFile(path, function(err, data) {
-    //console.log(data);
+    //console.log(swsLogPrefix(), data);
     filter = JSON.parse(data)
-    console.log(filter);
+    console.log(swsLogPrefix(), filter);
   });
   return filter
 }*/
 
 function getFilter(path){
   fs.readFile(path, function(err, data) {
-    //console.log(data);
+    //console.log(swsLogPrefix(), data);
     filter = JSON.parse(data)
-    console.log(filter);
+    //console.log(swsLogPrefix(), filter);
   });
   return filter
+}
+
+function swsLogPrefix(){
+  let d = new Date()
+  return "\x1b[36m" + "[SWS] " + d.getFullYear() + "/" + d.getMonth() + "/" + d.getDate() + 1 + "|" + d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds() + "." + d.getMilliseconds() + "\x1b[0m"
 }
 
 //swsttt.startServer()
