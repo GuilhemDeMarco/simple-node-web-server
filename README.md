@@ -1,5 +1,5 @@
 # Simple Web Server
-![logosws](https://i.imgur.com/02tbyB3.png)
+![logosws](https://i.imgur.com/0WK3xxR.png)
 
 A super easy to use web server for static websites!
 
