@@ -10,7 +10,7 @@ If you have decided to use this NodeJS module to create your website, you should
 
 ## Initialize the project
 
-Let&#39;s create a folder, we&#39;ll call it `node-website-sws`
+Let&#39;s create a folder, we&#39;ll call it `node-website-snws`
 
 ![createfolder](https://i.imgur.com/3cutHLi.png)
 
@@ -26,7 +26,7 @@ Next, let&#39;s initialize a node project. You have two very similar options:
 
 Now, let&#39;s add the module to the project:
 
-`npm install simple-web-server`
+`npm install simple-node-web-server`
 
 And with that, let&#39;s go toward the next step!
 
@@ -81,7 +81,7 @@ And have this URL: [http://yourwebsite.com/page1](http://yourwebsite.com/page1)
 
 Like said before, the filter will take care of checking which HTML pages the user can see, and it also takes care of where those pages are in the project.
 
-Let&#39;s create a file and call it `sws-filter.json`
+Let&#39;s create a file and call it `snws-filter.json`
 
 ```json
 {
@@ -107,22 +107,22 @@ Create a Javascript file in the root folder (not the public folder!), let&#39;s 
 
 First off, let&#39;s call the module:
 ```js
-const simplewebserver = require('simple-web-server');
+const snws = require('simple-node-web-server');
 ```
 
 We can now use the module. We need to set some values before starting the web server.
 
 ```js
 //this tells the module where the filter is in the project
-simplewebserver.filterPath = "./sws-filter.json"
+snws.filterPath = "./snws-filter.json"
 //this tells the module where the public folder is in the project
-simplewebserver.publicPath = "./public"
+snws.publicPath = "./public"
 ```
-    
+
 
 And finally, we can start the server!
 ```js
-simplewebserver.startServer();
+snws.startServer();
 ```
 
 That&#39;s it!

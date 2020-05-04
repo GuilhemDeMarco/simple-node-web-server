@@ -8,8 +8,8 @@ module.exports = {
   hostname : "127.0.0.1",
   port : 3000,
 
-  filterPath:"./sws-filter.json",
-  publicPath:"./public",
+  filterPath: __dirname + "/snws-filter.json",
+  publicPath: __dirname + "/public",
 
   startServer: function (filterPath = this.filterPath, publicPath = this.publicPath, hostname = this.hostname, port = this.port) {
     console.log(swsLogPrefix(), "Server has started");
@@ -139,52 +139,16 @@ module.exports = {
   }
 }
 
-/*async function getFilterAsync(path){
-  await fs.readFile(path, function(err, data) {
-    //console.log(swsLogPrefix(), data);
-    filter = JSON.parse(data)
-    console.log(swsLogPrefix(), filter);
-  });
-  return filter
-}*/
-
 function getFilter(path){
   fs.readFile(path, function(err, data) {
     //console.log(swsLogPrefix(), data);
     filter = JSON.parse(data)
-    //console.log(swsLogPrefix(), filter);
+    //console.log(swsLogPrefix(),filter);
   });
   return filter
 }
 
 function swsLogPrefix(){
   let d = new Date()
-  return "\x1b[36m" + "[SWS] " + d.getFullYear() + "/" + d.getMonth() + "/" + d.getDate() + 1 + "|" + d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds() + "." + d.getMilliseconds() + "\x1b[0m"
+  return "\x1b[36m" + "[SNWS] " + d.getFullYear() + "/" + d.getMonth() + "/" + d.getDate() + 1 + "|" + d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds() + "." + d.getMilliseconds() + "\x1b[0m"
 }
-
-//swsttt.startServer()
-
-
-/*
-if(this.filter[request]){
-  res.writeHead(200, {'Content-Type': 'text/html'});
-  res.write("OK" + request);
-  res.end();
-}
-else{
-  res.statusCode = 404;
-  res.write("404")
-  res.end()
-}
-
-
-
-var tempFilter = {
-  "/":"./pages/index.html",
-  "/about":"./pages/about.html"
-}
-
-const hostname = "127.0.0.1"
-const port = 3000
-
-*/

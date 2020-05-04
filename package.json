@@ -1,8 +1,8 @@
 {
   "name": "simple-node-web-server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A super easy to use web server for static websites!",
-  "main": "simple-web-server.js",
+  "main": "simple-node-web-server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
