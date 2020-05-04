@@ -1,6 +1,6 @@
 {
   "name": "simple-node-web-server",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A super easy to use web server for static websites!",
   "main": "simple-node-web-server.js",
   "scripts": {
