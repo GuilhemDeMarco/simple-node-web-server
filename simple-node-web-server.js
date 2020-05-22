@@ -1,6 +1,9 @@
 const http = require('http');
 const url = require('url')
 const fs = require('fs');
+const qs = require('querystring');
+const EventEmitter = require('events');
+class Emitter extends EventEmitter {}
 
 var filter = {}
 
@@ -11,7 +14,9 @@ module.exports = {
   filterPath: __dirname + "/snws-filter.json",
   publicPath: __dirname + "/public",
 
-  startServer: function (filterPath = this.filterPath, publicPath = this.publicPath, hostname = this.hostname, port = this.port) {
+  requestEvent: new Emitter(),
+
+  startServer: function (filterPath = this.filterPath, publicPath = this.publicPath, hostname = this.hostname, port = this.port, requestEvent = this.requestEvent) {
     console.log(swsLogPrefix(), "Server has started");
     getFilter(filterPath)
     http.createServer(async function (req, res){
@@ -19,17 +24,44 @@ module.exports = {
       var q = url.parse(req.url, true).query;
       var request = u.pathname
       console.log(swsLogPrefix(), "Receieved request!");
-      console.log(swsLogPrefix(), request);
-      console.log(swsLogPrefix(), "");
+      console.log(swsLogPrefix(), request, "\n");
+
+
+
 
       let requestArray = request.split("/")
 
       getFilter(filterPath)
 
-
       if(filter[request]){
         console.log(swsLogPrefix(), "Request is in filter, sending page to user...");
         console.log(swsLogPrefix(), publicPath + filter[request]);
+        if (req.method === "POST"){
+          console.log(swsLogPrefix(), "POST REQUEST");
+          var body = '';
+
+          req.on('data', function (data) {
+            body += data;
+
+            // Too much POST data, kill the connection!
+            // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+            if (body.length > 1e6)
+                req.connection.destroy();
+                requestEvent.emit('error')
+                console.log(swsLogPrefix(),"\x1b[31m","Too much POST data, connection killed! \n","\x1b[0m");
+            });
+
+          req.on('end', function () {
+            var post = qs.parse(body);
+            requestEvent.emit('post',body, req)
+            // use post['blah'], etc.
+          });
+        }
+        else if (req.method === "GET" && q){
+          console.log(swsLogPrefix(),"GET REQUEST");
+          requestEvent.emit('get',q,req)
+        }
+
         try{
           fs.readFile(publicPath + filter[request], function(err, data) {
             if (err) {
